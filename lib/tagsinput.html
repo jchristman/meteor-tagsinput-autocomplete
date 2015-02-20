@@ -5,7 +5,7 @@
             <div class='{{../tagClass}}'>{{getField}}&nbsp;&nbsp;<span class='tagclose' data-id={{_id}}>&nbsp;&nbsp;&times;&nbsp;</span></div>
         {{/each}}
         {{#if autocompleteSettings}}
-            {{> inputAutocomplete settings=extended_settings id=id name=name type='text' placeholder=placeholder class='form-control input-md'}}
+            {{> inputAutocomplete settings=extended_settings id=id name=name type='text' placeholder=placeholder class='form-control input-md {{class}}'}}
         {{else}}
             <input id={{id}} name={{name}} type='text' placeholder={{placeholder}} class='form-control input-md'>
         {{/if}}
