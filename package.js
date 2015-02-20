@@ -1,7 +1,7 @@
 Package.describe({
   name: 'jchristman:tagsinput-autocomplete',
   summary: 'A combination of the mizzao:autocomplete library and a tagsinput-like functionality',
-  version: '1.0.0',
+  version: '1.0.1',
   git: 'https://github.com/jchristman/meteor-tagsinput-autocomplete'
 });
 
