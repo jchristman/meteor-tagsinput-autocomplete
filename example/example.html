@@ -1,0 +1,11 @@
+<body>
+  {{> example}}
+</body>
+
+<template name="example">
+{{> tagsinput autocompleteSettings=settings tagField='username' id='example' name='example' placeholder='Type usernames'}}
+</template>
+
+<template name="userPill">
+<span class="label label-default">{{username}}</span>
+</template>
