@@ -1,7 +1,7 @@
 meteor-tagsinput-autocomplete
 =============================
 
-A combination of mizzao:autocomplete and a way of creating tags "in" the input box.
+A combination of mizzao:autocomplete and a way of creating tags "in" the input box. There is a live example at [tagsautocomplete.meteor.com](http://tagsautocomplete.meteor.com).
 
 API
 ===
