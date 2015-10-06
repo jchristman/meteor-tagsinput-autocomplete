@@ -1,9 +1,38 @@
 <body>
-  {{> example}}
+    {{> example}}
 </body>
 
 <template name="example">
-{{> tagsinput autocompleteSettings=settings tagField='username' tagsVar='exampleTagsVar' id='example' name='example' placeholder='Type usernames'}}
+<div class="container">
+    {{#autoForm collection="Parties" id="insertPartiesForm" type="insert"}}
+        <fieldset>
+            <legend>Create New Party</legend>
+            {{> afQuickField name='party_name'}}
+            {{> afQuickField name='invites' type='tagsinput-autocomplete' tagField='username' tagId='parties' tagName='parties' tagPlaceholder='Invite people to your party' autocompleteSettings=settings}}
+            {{> afQuickField name='date' value=getDate}}
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Insert</button>
+    {{/autoForm}}
+
+    <hr>
+
+    <ul>
+    {{#each party in parties}}
+        <li>{{party.party_name}}
+            <ul>
+                <li>Invites:
+                    <ul>
+                        {{#each invite in party.invites}}
+                            <li>{{invite}}</li>
+                        {{/each}}
+                    </ul>
+                </li>
+                <li>Date: {{party.date}}</li>
+            </ul>
+        </li>
+    {{/each}}
+    </ul>
+</div>
 </template>
 
 <template name="userPill">

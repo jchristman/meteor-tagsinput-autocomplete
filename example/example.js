@@ -1,3 +1,26 @@
+Parties = new Mongo.Collection("parties");
+Parties.attachSchema(new SimpleSchema({
+    party_name: {
+        type: String,
+        max: 50
+    },
+    invites: {
+        type: [String],
+        minCount: 1,
+        optional: true
+    },
+    date: {
+        type: Date,
+        min: function() { return new Date(); }
+    }
+}));
+
+if (Meteor.isServer) {
+    Meteor.publish('parties', function() { return Parties.find(); });
+} else {
+    Meteor.subscribe('parties');
+}
+
 if (Meteor.isClient) {
     Template.example.helpers({
         settings: function() {
@@ -5,15 +28,25 @@ if (Meteor.isClient) {
                 position: 'below',
                 limit: 10,
                 rules: [
-                {
-                    collection: 'users',
-                    subscription: 'usernameAutocompleteSubscription',
-                    field: 'username',
-                    options: '',
-                    template: Template.userPill
-                }
+                    {
+                        collection: 'users',
+                        subscription: 'usernameAutocompleteSubscription',
+                        field: 'username',
+                        options: '',
+                        template: Template.userPill
+                    }
                 ]
             }
+        },
+
+        getDate: function() {
+            var tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return tomorrow;
+        },
+
+        parties: function() {
+            return Parties.find();
         }
     });
 }
@@ -28,26 +61,30 @@ if (Meteor.isServer) {
     });
 
     Meteor.startup(function() {
-        if (Meteor.users.find().count() < 1000) {
-            Meteor.defer(function() {
-                function randString(x){
-                    var s = "";
-                    while(s.length<x&&x>0){
-                        var r = Math.random();
-                        s+= String.fromCharCode(Math.floor(r*26) + (r>0.5?97:65));
-                    }
-                    return s;
-                }
+        Meteor.defer(function() {
+            usernames = [
+                'Alice', 'Allison', 'Ally', 'Avery', 'Alex', 'Alexandra', 'Alexander', 'Arty', 'Aaron',
+                'Bob', 'Bobby', 'Borat', 'Ben', 'Benjamin', 'Brett', 'Brad',
+                'Charlie', 'Constance', 'Corey', 'Claudia', 'Candace',
+                'Daphne', 'Dora', 'Dudemeister', 'Dan', 'Daniel',
+                'Eileen', 'Egbert', 'Esther', 'Elliot', 'Earl', 'Esteban', 'Eric',
+                'Fred', 'Freddy', 'Frank', 'Franny',
+                'Gary', 'Gaston', 'Golbat', 'George',
+                'Harry', 'Harrison', 'Harvy', 'Homer',
+                'Ice Ice', 'Indy', 'Isabel',
+                'Josh', 'Jared', 'Joline', 'John', 'Johnathan',
+                'Karen', 'Kara', 'Konan',
+                'Limon', 'Leslie', 'Lady',
 
-                for (var i = 0; i < 1000; i++) {
-                    Accounts.createUser({
-                        username: randString(4),
-                        email: '',
-                        password: 'bob',
-                        profile: {}
-                    });
-                }
+            ];
+            _.each(usernames, function(name) {
+                Accounts.createUser({
+                    username: name,
+                    email: '',
+                    password: 'bob',
+                    profile: {}
+                });
             });
-        }
+        });
     });
 }

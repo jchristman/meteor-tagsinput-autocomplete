@@ -1,13 +1,15 @@
 <template name='tagsinput'>
 {{#with setup}}
     <div class='tagsinput'>
+        <div data-schema-key={{data_schema_key}}>
         {{#each currentTags}}
-            <div class='{{../tagClass}}'>{{getField}}&nbsp;&nbsp;<span class='tagclose' data-id={{_id}}>&nbsp;&nbsp;&times;&nbsp;</span></div>
+        <div class='{{../tagClass}}'><span class="tagsinput-value">{{getField}}</span>&nbsp;&nbsp;<span class='tagclose' data-id={{_id}}>&nbsp;&nbsp;&times;&nbsp;</span></div>
         {{/each}}
+        </div>
         {{#if autocompleteSettings}}
-            {{> inputAutocomplete settings=extended_settings id=id name=name type='text' placeholder=placeholder class='form-control input-md {{class}}'}}
+            {{> inputAutocomplete settings=autocompleteSettings id=tagId name=tagName type='text' placeholder=tagPlaceholder class='form-control input-md'}}
         {{else}}
-            <input id={{id}} name={{name}} type='text' placeholder={{placeholder}} class='form-control input-md'>
+            <input id={{tagId}} name={{tagName}} type='text' placeholder={{tagPlaceholder}} class='form-control input-md'>
         {{/if}}
     </div>
 {{/with}}

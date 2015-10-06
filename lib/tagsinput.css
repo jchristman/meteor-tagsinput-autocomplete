@@ -50,3 +50,7 @@
     color: #fff;
     cursor: pointer;
 }
+
+.-autocomplete-container {
+    margin-top: 15px;
+}
