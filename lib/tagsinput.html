@@ -3,7 +3,7 @@
     <div class='tagsinput'>
         <div data-schema-key={{data_schema_key}}>
         {{#each currentTags}}
-        <div class='{{../tagClass}}'><span class="tagsinput-value">{{getField}}</span>&nbsp;&nbsp;<span class='tagclose' data-id={{_id}}>&nbsp;&nbsp;&times;&nbsp;</span></div>
+            <div class='{{../tagClass}} tagsinput-value'><span>{{getField}}</span>&nbsp;&nbsp;<span class='tagclose' data-id={{_id}}>&nbsp;&nbsp;&times;&nbsp;</span></div>
         {{/each}}
         </div>
         {{#if autocompleteSettings}}

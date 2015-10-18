@@ -5,9 +5,13 @@ Parties.attachSchema(new SimpleSchema({
         max: 50
     },
     invites: {
-        type: [String],
-        minCount: 1,
-        optional: true
+        type: [Object]
+    },
+    'invites.$._id': {
+        type: String
+    },
+    'invites.$.username': {
+        type: String
     },
     date: {
         type: Date,
