@@ -26,7 +26,29 @@ if (Meteor.isServer) {
 }
 
 if (Meteor.isClient) {
+    Meteor.startup(function() {
+        Session.setDefault('insertOrEdit', 'insertParty');
+        Session.setDefault('partyToEdit', {});
+    });
+
     Template.example.helpers({
+        getInsertOrEdit: function() {
+            return Session.get('insertOrEdit');
+        },
+
+        parties: function() {
+            return Parties.find();
+        }
+    });
+
+    Template.example.events({
+        'click .edit': function(event) {
+            Session.set('partyToEdit', this);
+            Session.set('insertOrEdit', 'editParty');
+        }
+    });
+
+    Template.insertParty.helpers({
         settings: function() {
             return {
                 position: 'below',
@@ -48,9 +70,34 @@ if (Meteor.isClient) {
             tomorrow.setDate(tomorrow.getDate() + 1);
             return tomorrow;
         },
+    });
+    
+    Template.editParty.helpers({
+        settings: function() {
+            return {
+                position: 'below',
+                limit: 10,
+                rules: [
+                    {
+                        collection: 'users',
+                        subscription: 'usernameAutocompleteSubscription',
+                        field: 'username',
+                        options: '',
+                        template: Template.userPill
+                    }
+                ]
+            }
+        },
 
-        parties: function() {
-            return Parties.find();
+        getParty: function() {
+            return Session.get('partyToEdit');
+        }
+    });
+
+    Template.editParty.events({
+        'click .doneEditing': function(event) {
+            Session.set('partyToEdit', {});
+            Session.set('insertOrEdit', 'insertParty');
         }
     });
 }
@@ -82,12 +129,14 @@ if (Meteor.isServer) {
 
             ];
             _.each(usernames, function(name) {
-                Accounts.createUser({
-                    username: name,
-                    email: '',
-                    password: 'bob',
-                    profile: {}
-                });
+                try {
+                    Accounts.createUser({
+                        username: name,
+                        email: '',
+                        password: 'bob',
+                        profile: {}
+                    });
+                } catch (e) {}
             });
         });
     });

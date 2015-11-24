@@ -4,21 +4,13 @@
 
 <template name="example">
 <div class="container">
-    {{#autoForm collection="Parties" id="insertPartiesForm" type="insert"}}
-        <fieldset>
-            <legend>Create New Party</legend>
-            {{> afQuickField name='party_name'}}
-            {{> afQuickField name='invites' type='tagsinput-autocomplete' tagField='username' tagId='parties' tagName='parties' tagPlaceholder='Invite people to your party' autocompleteSettings=settings}}
-            {{> afQuickField name='date' value=getDate}}
-        </fieldset>
-        <button type="submit" class="btn btn-primary">Insert</button>
-    {{/autoForm}}
+    {{> Template.dynamic template=getInsertOrEdit}}
 
     <hr>
 
     <ul>
     {{#each party in parties}}
-        <li>{{party.party_name}}
+    <li>{{party.party_name}} {{#with party}}<button class='btn btn-default edit'>Edit Party</button>{{/with}}
             <ul>
                 <li>Invites:
                     <ul>
@@ -37,4 +29,28 @@
 
 <template name="userPill">
 <span class="label label-default">{{username}}</span>
+</template>
+
+<template name="insertParty">
+    {{#autoForm collection="Parties" id="insertPartiesForm" type="insert"}}
+        <fieldset>
+            <legend>Create New Party</legend>
+            {{> afQuickField name='party_name'}}
+            {{> afQuickField name='invites' type='tagsinput-autocomplete' tagField='username' tagId='parties' tagName='parties' tagPlaceholder='Invite people to your party' autocompleteSettings=settings}}
+            {{> afQuickField name='date' value=getDate}}
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Insert</button>
+    {{/autoForm}}
+</template>
+
+<template name="editParty">
+    {{#autoForm collection="Parties" id="editPartiesForm" type="update" doc=getParty}}
+        <fieldset>
+            <legend>Edit Party</legend>
+            {{> afQuickField name='party_name'}}
+            {{> afQuickField name='invites' type='tagsinput-autocomplete' tagField='username' tagId='update' tagName='update' tagPlaceholder='Invite people to your party' autocompleteSettings=settings}}
+            {{> afQuickField name='date'}}
+        </fieldset>
+        <button type="submit" class="btn btn-primary doneEditing">Update</button> <button type="button" class="btn btn-default doneEditing">Cancel</button>
+    {{/autoForm}}
 </template>
